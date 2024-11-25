@@ -1,0 +1,6 @@
+{
+  "parent": "wireframe:item/template_wireframe",
+  "textures": {
+    "0": "wireframe:item/wireframe_regular"
+  }
+}
