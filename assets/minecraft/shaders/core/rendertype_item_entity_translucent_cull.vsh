@@ -67,7 +67,7 @@ void main() {
     vec4 linePosEnd = ProjMat * VIEW_SCALE * ModelViewMat * vec4(Position + N, 1.);
 
     vec3 ndc1 = linePosStart.xyz / linePosStart.w;
-    vec3 ndc2 = linePosEnd.xyz / linePosStart.w;
+    vec3 ndc2 = linePosEnd.xyz / linePosEnd.w;
 
     vec2 lineScreenDirection = normalize((ndc2.xy - ndc1.xy) * ScreenSize);
     vec2 lineOffset = vec2(-lineScreenDirection.y, lineScreenDirection.x) * LineWidth / ScreenSize;
