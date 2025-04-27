@@ -2,7 +2,7 @@
 
 A small resource pack that makes it easy to create and display wireframes of any size that look like those in vanilla.  
 Adapted from [HalbFettKaese/WireframeDisplay](https://github.com/HalbFettKaese/WireframeDisplay).  
-Minecraft version: 1.21.4
+Minecraft version: 1.21.4 ~ 1.21.5
 
 > [!Warning]
 > The wireframe display is triggered by item textures with alpha=251.  

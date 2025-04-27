@@ -10,10 +10,12 @@ in vec2 UV1;
 in ivec2 UV2;
 in vec3 Normal;
 
+uniform sampler2D Sampler0;
 uniform sampler2D Sampler2;
 
 uniform mat4 ModelViewMat;
 uniform mat4 ProjMat;
+uniform vec2 ScreenSize;
 uniform int FogShape;
 
 uniform vec3 Light0_Direction;
@@ -27,8 +29,6 @@ out vec2 texCoord2;
 
 flat out int isLine;
 flat out int shouldLineBypassFog;
-uniform sampler2D Sampler0;
-uniform vec2 ScreenSize;
 
 const float VIEW_SHRINK = 1. - (1. / 256.);
 const mat4 VIEW_SCALE = mat4(
@@ -39,8 +39,15 @@ const mat4 VIEW_SCALE = mat4(
 );
 
 void main() {
+  // Workaround for a weird bug in 1.21.5 on Intel integrated GPU
+  // Access default uniforms once to suppress error spam
+  FogShape;
+  Light0_Direction;
+  Light1_Direction;
+  Sampler2;
+
   vec4 color = textureLod(Sampler0, UV0, 0);
-  float LineWidth = 2.5;
+  float lineWidth = 2.5;
   isLine = 0;
   if(int(round(color.a * 255.)) == 251) {
     // Wireframe behavior
@@ -50,7 +57,7 @@ void main() {
 
     vec4 widthColor = texelFetch(Sampler0, coords + ivec2(2, 0), 0);
     if(widthColor.a > 0.5) {
-      LineWidth = dot(widthColor.rgb, vec3(1., 1./256., 1./65536.)) * 255.;
+      lineWidth = dot(widthColor.rgb, vec3(1., 1./256., 1./65536.)) * 255.;
     }
 
     shouldLineBypassFog = 0;
@@ -70,7 +77,7 @@ void main() {
     vec3 ndc2 = linePosEnd.xyz / linePosEnd.w;
 
     vec2 lineScreenDirection = normalize((ndc2.xy - ndc1.xy) * ScreenSize);
-    vec2 lineOffset = vec2(-lineScreenDirection.y, lineScreenDirection.x) * LineWidth / ScreenSize;
+    vec2 lineOffset = vec2(-lineScreenDirection.y, lineScreenDirection.x) * lineWidth / ScreenSize;
 
     float topDownZ = dot(vec2(-ModelViewMat[2][0], ModelViewMat[0][0]), Position.xz);
     if((topDownZ > 0.) ^^ (lineOffset.x < 0.)) {
