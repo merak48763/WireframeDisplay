@@ -8,6 +8,10 @@ Minecraft version: 1.21.4 ~ 1.21.5
 > The wireframe display is triggered by item textures with alpha=251.  
 > Other item textures with this specific alpha value may be affected.
 
+> [!Caution]
+> This pack *may* not be able to run correctly on Intel iGPUs.  
+> 1.21.5 rendering pipeline is very buggy on Intel iGPUs. A potential workaround is implemented in this pack, but is not guaranteed to work.
+
 ## Spawning a wireframe display
 
 The wireframe displays are just item models. You can spawn them as a display like this:
